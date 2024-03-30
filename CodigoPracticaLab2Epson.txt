@@ -1,0 +1,136 @@
+Function main
+	
+	Motor On
+	Power High
+	
+	Speed 50
+	Accel 50, 50
+
+	Call Loop2
+	Do
+		If MemSw(512) Then
+			Call paletizado_z
+		EndIf
+		If MemSw(513) Then
+			Call paletizado_s
+		EndIf
+		If MemSw(514) Then
+			Call paletizado_externo
+		EndIf
+	Loop
+
+Fend
+
+Function Loop1
+	Go Origen
+	Wait 0.5
+	Go EjeX
+	Wait 0.5
+	Go EjeY
+	Wait 0.5
+			
+	Move Origen
+	Wait 0.5
+	Move EjeX
+	Wait 0.5
+	Move EjeY
+	Wait 0.5
+Fend
+Function Loop2
+	Go Origen :Z(727.793 + 100)
+	Go Origen
+	Go Origen :Z(727.793 + 100)
+	Wait 0.5
+	Go EjeX :Z(727.793 + 100)
+	Go EjeX
+	Go EjeX :Z(727.793 + 100)
+	Wait 0.5
+	Go EjeY :Z(727.793 + 100)
+	Go EjeY
+	Go EjeY :Z(727.793 + 100)
+	Wait 0.5
+Fend
+Function paletizado_z
+	
+	Integer i
+	
+	#define estado_paletizado_z 515
+	Pallet 1, Origen, EjeX, EjeY, 3, 3
+	
+	MemOn estado_paletizado_z
+	For i = 1 To 9
+		Go Pallet(1, i) :Z(727.793 + 100)
+		Go Pallet(1, i)
+		Go Pallet(1, i) :Z(727.793 + 100)
+	Next
+	MemOff estado_paletizado_z
+	i = 0
+	
+	
+	
+Fend
+
+Function paletizado_s
+	Integer i
+	
+	
+	#define estado_paletizado_s 516
+	Pallet 1, Origen, EjeX, EjeY, 3, 3
+	
+	MemOn estado_paletizado_s
+	For i = 1 To 3
+		Go Pallet(1, i) :Z(727.793 + 100)
+		Go Pallet(1, i)
+		Go Pallet(1, i) :Z(727.793 + 100)
+	Next
+	
+	For i = 6 To 4 Step -1
+		Go Pallet(1, i) :Z(727.793 + 100)
+		Go Pallet(1, i)
+		Go Pallet(1, i) :Z(727.793 + 100)
+	Next
+	
+	For i = 7 To 9
+		Go Pallet(1, i) :Z(727.793 + 100)
+		Go Pallet(1, i)
+		Go Pallet(1, i) :Z(727.793 + 100)
+	Next
+	
+	MemOff estado_paletizado_s
+	
+	i = 0
+	
+Fend
+
+
+Function paletizado_externo
+	
+	Integer i
+	Integer j
+	
+	
+	#define estado_paletizado_externo 517
+	
+	Pallet Outside, 2, Origen, EjeX, EjeY, 3, 3
+	
+	MemOn estado_paletizado_externo
+	For i = 1 To 4
+		For j = 1 To 4
+			Go Pallet(2, i, j) :Z(727.793 + 100)
+			Go Pallet(2, i, j)
+			Go Pallet(2, i, j) :Z(727.793 + 100)
+			
+		Next
+	Next
+	MemOff estado_paletizado_externo
+	
+	i = 0
+	j = 0
+	
+Fend
+
+
+
+
+
+
